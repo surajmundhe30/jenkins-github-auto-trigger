@@ -1,13 +1,40 @@
 pipeline {
+    agent any
     
     triggers {
-        githubPush() // Trigger the pipeline on GitHub push events
+        // This ensures the pipeline is triggered by the GitHub webhook
+        pollSCM('H/5 * * * *') // Optional fallback polling if webhook fails
     }
 
     stages {
-        stage('Checkout') {
+        stage('Build') {
+            when {
+                branch 'master' // Only run on master branch
+            }
             steps {
-                // Clone the repository
-                git url: 'git@https://github.com/surajmundhe30/jenkins-github-auto-trigger.git', branch: 'master'
+                echo 'Building the master branch...'
+                // Add your build steps here
             }
         }
+
+        stage('Test') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Running tests for master branch...'
+                // Add your test steps here
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying the master branch...'
+                // Add your deployment steps here
+            }
+        }
+    }
+}
