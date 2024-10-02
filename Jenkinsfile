@@ -3,7 +3,7 @@ pipeline {
     
     triggers {
         // This ensures the pipeline is triggered by the GitHub webhook
-        pollSCM('H/5 * * * *') // Optional fallback polling if webhook fails
+        githubPush()
     }
 
     stages {
